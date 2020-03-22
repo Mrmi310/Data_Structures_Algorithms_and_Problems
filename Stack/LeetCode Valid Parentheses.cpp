@@ -1,4 +1,7 @@
 /*
+LeetCode problem https://leetcode.com/problems/valid-parentheses/ solved in C++
+Difficulty: easy
+
 Given a string containing just the characters
 '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
