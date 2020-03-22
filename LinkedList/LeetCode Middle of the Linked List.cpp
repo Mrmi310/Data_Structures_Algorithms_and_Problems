@@ -1,7 +1,9 @@
 /*
-https://leetcode.com/problems/middle-of-the-linked-list/submissions/
+C++ solution for https://leetcode.com/problems/middle-of-the-linked-list/submissions/
 876. Middle of the Linked List
 Difficulty: Easy
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Middle of the Linked List.
+Memory Usage: 6.4 MB, less than 100.00% of C++ online submissions for Middle of the Linked List.
 
 Given a non-empty, singly linked list with head node head,
 return a middle node of linked list.
