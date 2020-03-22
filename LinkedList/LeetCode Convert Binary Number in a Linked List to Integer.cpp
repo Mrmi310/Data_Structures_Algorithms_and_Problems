@@ -1,7 +1,9 @@
 /*
-https://leetcode.com/problems/convert-binary-number-in-a-linked-list-to-integer/
+C++ solution for https://leetcode.com/problems/convert-binary-number-in-a-linked-list-to-integer/
 1290. Convert Binary Number in a Linked List to Integer
 Difficulty: easy
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Convert Binary Number in a Linked List to Integer.
+Memory Usage: 6.6 MB, less than 100.00% of C++ online submissions for Convert Binary Number in a Linked List to Integer.
 
 Given head which is a reference node to a singly-linked list.
 The value of each node in the linked list is either 0 or 1.
