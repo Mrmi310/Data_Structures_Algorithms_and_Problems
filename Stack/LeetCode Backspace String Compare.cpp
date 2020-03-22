@@ -1,6 +1,7 @@
 /*
-https://leetcode.com/problems/backspace-string-compare/
-844. Backspace String Compare
+C++ solution for https://leetcode.com/problems/backspace-string-compare/
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Backspace String Compare.
+Memory Usage: 6.3 MB, less than 100.00% of C++ online submissions for Backspace String Compare.
 Difficulty: easy
 Given two strings S and T, return if they are equal when both
 are typed into empty text editors. # means a backspace character.
