@@ -1,4 +1,12 @@
-//Stack implementation using linked list
+/*
+The stack data structure implemented using a singly linked list written in C++
+This stack has the following functions: 
+1) push() - inserts an element to the top of the stack
+2) pop() - deletes an element from the top of the stack
+3) top() - returns the top element of the stack, or prints out an error message and returns -1 if the stack is empty
+4) isEmpty() - returns true if the stack is empty
+5) printStack() - prints the entire stack
+*/
 #include <iostream>
 #include <stddef.h>
 
