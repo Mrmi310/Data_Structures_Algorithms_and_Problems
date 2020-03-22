@@ -1,3 +1,12 @@
+/*
+LeetCode problem DesignLinkedList https://leetcode.com/problems/design-linked-list/ written in C++
+Includes functions for:
+1) creating a singularly linked list; 
+2) adding an element to its front;
+3) appending an element to the end;
+4) inserting an element into the list on a given position;
+5) removing an element from a given position in the list;
+*/
 #include <stddef.h>
 //Including stddef.h for the NULL value
 
