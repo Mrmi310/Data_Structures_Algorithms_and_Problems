@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+using namespace std;
+
+struct cvor
+{
+    vector<int> povezanost;
+};
+
+int main()
+{
+    cout<<"Unesite broj cvorova.\n";
+    short brCvor;
+    cin>>brCvor;
+
+    cvor cvorovi[brCvor];
+
+    cout<<"Unesite broj grana.\n";
+    short brGrana;
+    cin>>brGrana;
+
+    cout<<"Unesite broj cvora zatim cvor za koji je vezan.\n";
+    for(int i=0; i<brGrana; ++i)
+    {
+        int index, indexDrugog;
+        cin>>index>>indexDrugog;
+        (cvorovi[index-1].povezanost).push_back(indexDrugog);
+    }
+
+    for(int i=0; i<brCvor; ++i)
+    {
+        int kolVeza = cvorovi[i].povezanost.size();
+        cout<<"Cvor broj "<<i+1<<" je povezan sa cvorovima: ";
+        for(int j=0; j<kolVeza; ++j)
+        {
+            printf("%d ", cvorovi[i].povezanost[j]);
+        }
+        cout<<"\n";
+    }
+    return 0;
+}
