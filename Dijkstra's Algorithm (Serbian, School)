@@ -1,0 +1,105 @@
+#include <iostream>
+#include <climits>
+
+#define MAX_CVOROVA 20
+#define INF 99999
+
+using namespace std;
+
+int najmRastojanje(int udaljenost[], bool resen[], int brCvorova)
+{
+    //Postavljanje minimalne vrednosti
+    int najm = INT_MAX, indeksNajmanjeg;
+    for (int v = 0; v < brCvorova; ++v)
+    {
+        if (!resen[v] && udaljenost[v] <= najm)
+        {
+            najm = udaljenost[v];
+            indeksNajmanjeg = v;
+        }
+    }
+
+    return indeksNajmanjeg;
+}
+
+//Ispise put kretanja koristeci roditelj[]
+void ispisiPut(int roditelj[], int brCvorova)
+{
+    if(roditelj[brCvorova] == -1)
+        return;
+    ispisiPut(roditelj, roditelj[brCvorova]);
+    cout<<roditelj[brCvorova]+1<<" ";
+}
+
+//Ispise trazen rezultat: Markov put kretanja (od cvora 1 do cvora brCvorova)
+void ispisi(int udaljenost[], int pocetak, int kraj, int roditelj[], int brCvorova)
+{
+    cout<<"Marko je krenuo od cvora "<< pocetak+1<< " i stigao do cvora "<< kraj<< " za "<<udaljenost[brCvorova-1]<< " sekundi, krecuci se putem: \n";
+    ispisiPut(roditelj, brCvorova);
+}
+
+void dijkstrinAlgoritam(int graf[MAX_CVOROVA][MAX_CVOROVA], int pocetak, int brCvorova)
+{
+    int udaljenost[brCvorova]; //dist[i]=najkrace rastojanje od izvornog cvora do i
+    bool resen[brCvorova]; //resen[i] ce biti true ukoliko je cvor i ukljucen u najkracu putanju od izvornog cvora do cvora
+    int roditelj[brCvorova+1];
+
+    for(int i = 0; i < brCvorova; i++)
+    {
+        udaljenost[i] = INT_MAX;
+        resen[i] = false;
+        roditelj[i] = -1;
+    }
+
+    udaljenost[pocetak] = 0; //Udaljenost pocetnog cvora od samog sebe je 0
+
+    //Pronalazenje minimalne udaljenosti za sve cvorove
+    for(int c = 0; c < brCvorova - 1; ++c)
+    {
+        //Nadji najmanje rastojanje od cvora u i obelezi ga kao posecen
+        int u = najmRastojanje(udaljenost, resen, brCvorova);
+        resen[u] = true;
+
+        //Azurirati udaljenost cvora v, samo ukoliko je nova vrednost manja od postojece
+        for(int v = 0; v < brCvorova; ++v)
+        {
+            if(!resen[v] && graf[u][v] && udaljenost[u] != INT_MAX && graf[u][v] + udaljenost[u] < udaljenost[v])
+            {
+                udaljenost[v] = graf[u][v] + udaljenost[u];
+                roditelj[v] = u;
+            }
+        }
+    }
+
+    roditelj[brCvorova] = roditelj[brCvorova-1];
+    ispisi(udaljenost, 0, brCvorova, roditelj, brCvorova);
+}
+
+int main()
+{
+    //Unos grafa preko matrice
+
+    int brCvorova, brGrana;
+
+    cout<<"Unesite br cvorova\n";
+    cin>>brCvorova;
+    cout<<"Unesite br grana\n";
+    cin>>brGrana;
+
+    int graf[MAX_CVOROVA][MAX_CVOROVA] = {0};
+
+    int indeksOd, indeksDo, tezina;
+    for(int i=0; i<brGrana; ++i)
+    {
+        cout<<"i: "<<i<<"\n";
+        cout<<"Unesite cvor, zatim cvor sa kojim je povezan i tezinu grane\n";
+        cin>>indeksOd>>indeksDo>>tezina;
+
+        //Indeksi cvorova pocinju od 1
+        graf[indeksOd-1][indeksDo-1] = tezina;
+        graf[indeksDo-1][indeksOd-1] = tezina;
+    }
+
+    dijkstrinAlgoritam(graf, 0, brCvorova);
+    return 0;
+}
