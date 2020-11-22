@@ -1,0 +1,119 @@
+#include <iostream>
+#include <climits>
+
+#define MAX_CVOROVA 20
+
+using namespace std;
+
+//Odredi indeks najblizeg slobodnog cvora i-tog cvora
+int nsc(int najbliziCvor[], bool posecen[], int brCvorova)
+{
+    int najmanji = INT_MAX, indeksNajmanjeg;
+
+    //Prodji kroz sve cvorove
+    for(int i = 0; i < brCvorova; ++i)
+    {
+        if(posecen[i] == false && najbliziCvor[i] < najmanji)
+        {
+            najmanji = najbliziCvor[i];
+            indeksNajmanjeg = i;
+        }
+    }
+
+    return indeksNajmanjeg;
+}
+
+//Ispise koji cvor je povezan sa kojim i kojom tezinom, kao i ukupnu tezinu najmanjeg razapinjuceg stabla
+void ispisiStablo(int roditelj[], int graf[MAX_CVOROVA][MAX_CVOROVA], int brCvorova)
+{
+    int ukupnaTezina = 0;
+
+    cout<<"Cvor \tTezina\n";
+    for (int i = 0; i < brCvorova; ++i)
+    {
+        cout<<roditelj[i]+1<<" -> "<<i+1<<" \t";
+        if(i>0)
+        {
+            cout<<graf[i][roditelj[i]]<<" \n";
+            ukupnaTezina += graf[i][roditelj[i]];
+        }
+
+        else
+            cout<<"\n";
+    }
+
+    cout<<"Ukupna tezina najmanjeg razapinjuceg stabla: "<<ukupnaTezina<<"\n";
+}
+
+
+//Napravi najmanje razapinjuce stablo grafa (stablo koje najmanjom tezinom 1 poseti svaki cvor)
+void primovAlgoritam(int graf[MAX_CVOROVA][MAX_CVOROVA], int brCvorova)
+{
+    //Cuva indekse cvorova koji vode do i-tog cvora
+    int roditelj[brCvorova];
+
+    //Indeksi najblizeg cvora i-tog cvora
+    int najbliziCvor[brCvorova];
+
+    //Predstavlja cvorove koji su vec poseceni u grafu
+    bool posecen[brCvorova];
+
+    //Obelezi sve najblize cvorove kao INT_MAX i kao neposecene
+    for (int i = 0; i < brCvorova; ++i)
+    {
+        najbliziCvor[i] = INT_MAX;
+        posecen[i] = false;
+    }
+
+    //Poseti prvi cvor iz nule (van grafa) i stavi indeks roditelja na -1 (van grafa)
+    najbliziCvor[0] = 0;
+    roditelj[0] = -1;
+
+    //Prodji kroz sve cvorove
+    for(int i = 0; i < brCvorova; ++i)
+    {
+        //Nadji najblizi slobodan cvor i-tog cvora i obelezi i-ti cvor kao posecen
+        int najbliziSlobodanCvor = nsc(najbliziCvor, posecen, brCvorova);
+        posecen[najbliziSlobodanCvor] = true;
+
+        //Poveze moguc cvor sa najblizem slobodnom cvoru za povezivanje
+        for(int j = 0; j < brCvorova; ++j)
+        {
+            if(graf[i][j] && posecen[j] == false && graf[i][j] < najbliziCvor[j])
+            {
+                roditelj[j] = i;
+                najbliziCvor[j] = graf[i][j];
+            }
+        }
+    }
+
+    ispisiStablo(roditelj, graf, brCvorova);
+}
+
+int main()
+{
+    //Unos grafa preko matrice
+
+    int brCvorova, brGrana;
+
+    cout<<"Unesite br cvorova\n";
+    cin>>brCvorova;
+    cout<<"Unesite br grana\n";
+    cin>>brGrana;
+
+    int graf[MAX_CVOROVA][MAX_CVOROVA]={0};
+    int indeksOd, indeksDo, tezina;
+    for(int i=0; i<brGrana; ++i)
+    {
+        cout<<"i: "<<i<<"\n";
+        cout<<"Unesite cvor, zatim cvor sa kojim je povezan i tezinu grane\n";
+        cin>>indeksOd>>indeksDo>>tezina;
+
+        //Indeksi cvorova pocinju od 1
+        graf[indeksOd-1][indeksDo-1]=tezina;
+        graf[indeksDo-1][indeksOd-1]=tezina;
+    }
+
+    primovAlgoritam(graf, brCvorova);
+    return 0;
+}
