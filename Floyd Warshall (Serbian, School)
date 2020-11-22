@@ -1,0 +1,92 @@
+#include <iostream>
+#include <climits>
+
+#define MAX_CVOROVA 20
+#define INF 99999
+
+using namespace std;
+
+void ispisi(int d[MAX_CVOROVA][MAX_CVOROVA], int brCvorova)
+{
+    cout<<"Najmanja udaljenost svakog para cvorova:\n";
+    for(int i = 0; i < brCvorova; ++i)
+    {
+        for(int j = 0; j < brCvorova; ++j)
+        {
+            if(d[i][j] == INF)
+                cout<<"INF\t";
+            else
+                cout<<d[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+
+void floydWarshall(int graf[MAX_CVOROVA][MAX_CVOROVA], int brCvorova)
+{
+    //d[][] sadrzi najkrace rastojanje izmedju svakog para cvorova
+    int d[MAX_CVOROVA][MAX_CVOROVA], i, j, k;
+
+    //Na pocetku udaljenost cvora i do cvora j je tezina njihove povezanosti u grafu
+    for (i = 0; i < brCvorova; i++)
+    {
+        for (j = 0; j < brCvorova; j++)
+        {
+            d[i][j] = graf[i][j];
+        }
+    }
+
+    //Prolazi kroz sve cvorove
+    for (k = 0; k < brCvorova; k++)
+    {
+        for (i = 0; i < brCvorova; i++)
+        {
+            for (j = 0; j < brCvorova; j++)
+            {
+                if (d[i][k] + d[k][j] < d[i][j])
+                {
+                    d[i][j] = d[i][k] + d[k][j];
+                }
+            }
+        }
+    }
+
+    ispisi(d, brCvorova);
+}
+
+int main()
+{
+    //Unos grafa preko matrice
+
+    int brCvorova, brGrana;
+
+    cout<<"Unesite br cvorova\n";
+    cin>>brCvorova;
+    cout<<"Unesite br grana\n";
+    cin>>brGrana;
+
+    int graf[MAX_CVOROVA][MAX_CVOROVA];
+    for(int i = 0; i<brCvorova; ++i)
+    {
+        for(int j = 0; j<brCvorova; ++j)
+        {
+            graf[i][j]=INF;
+        }
+    }
+    int indeksOd, indeksDo, tezina;
+    for(int i=0; i<brGrana; ++i)
+    {
+        cout<<"i: "<<i<<"\n";
+        cout<<"Unesite cvor, zatim cvor sa kojim je povezan i tezinu grane\n";
+        cin>>indeksOd>>indeksDo>>tezina;
+
+        //Indeksi cvorova pocinju od 1
+        graf[indeksOd-1][indeksDo-1] = tezina;
+        graf[indeksDo-1][indeksOd-1] = tezina;
+
+        //Tezina od cvora do samog sebe je 0
+        graf[i][i] = 0;
+    }
+    floydWarshall(graf, brCvorova);
+    return 0;
+}
